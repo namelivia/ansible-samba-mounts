@@ -1,0 +1,33 @@
+---
+- name: 'Check mandatory variables are defined'
+  assert:
+    that:
+      - samba_username is defined
+      - samba_password is defined
+      - samba_host_ip is defined
+      - remote_folder is defined
+      - local_folder is defined
+
+# TODO
+# install cifs-utils?
+- name: Create the local folder
+  file:
+    path: "{{ local_folder }}"
+    state: directory
+    mode: 0755
+
+- name: Create credentials_file
+  template:
+    src: smb.j2
+    dest: "{{ hostvars[inventory_hostname].working_directory }}.smb"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Mount shared folder
+  mount:
+    state: "mounted"
+    fstype: "cifs"
+    name: "{{ local_folder }}"
+    src: "//{{ samba_host_ip }}/{{ remote_folder }}"
+    opts: "credentials={{ hostvars[inventory_hostname].working_directory }}.smb,file_mode=0644,dir_mode=0755,gid=root,uid=root"
