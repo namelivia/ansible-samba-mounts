@@ -5,16 +5,14 @@
       - samba_username is defined
       - samba_password is defined
       - samba_host_ip is defined
-      - remote_folder is defined
-      - local_folder is defined
+      - samba_mounts is defined
 
-# TODO
-# install cifs-utils?
-- name: Create the local folder
+- name: Create the local folders
   file:
-    path: "{{ local_folder }}"
+    path: "{{ item.local_folder }}"
     state: directory
     mode: 0755
+  with_items: "{{ samba_mounts }}"
 
 - name: Create credentials_file
   template:
@@ -28,6 +26,7 @@
   mount:
     state: "mounted"
     fstype: "cifs"
-    name: "{{ local_folder }}"
-    src: "//{{ samba_host_ip }}/{{ remote_folder }}"
+    name: "{{ item.local_folder }}"
+    src: "//{{ samba_host_ip }}/{{ item.remote_folder }}"
     opts: "credentials={{ hostvars[inventory_hostname].working_directory }}.smb,file_mode=0644,dir_mode=0755,gid=root,uid=root"
+  with_items: "{{ samba_mounts }}"

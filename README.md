@@ -16,5 +16,4 @@ roles:
  - `samba_username` Username for the samba server.
  - `samba_password` Password for the samba server.
  - `samba_host_ip` IP address for the samba server.
- - `remote_folder` Remote folder to mount.
- - `local_folder` Local folder in wich will be mounted.
+ - `samba_mounts` Dictionary of `local_folder` and `remote_folder` of mounts
