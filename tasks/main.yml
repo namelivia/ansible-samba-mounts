@@ -6,6 +6,8 @@
       - samba_password is defined
       - samba_host_ip is defined
       - samba_mounts is defined
+      - gid is defined
+      - uid is defined
 
 - name: Create the local folders
   file:
@@ -28,5 +30,5 @@
     fstype: "cifs"
     name: "{{ item.local_folder }}"
     src: "//{{ samba_host_ip }}/{{ item.remote_folder }}"
-    opts: "credentials={{ hostvars[inventory_hostname].working_directory }}.smb,_netdev,file_mode=0644,dir_mode=0755,gid=root,uid=root"
+    opts: "credentials={{ hostvars[inventory_hostname].working_directory }}.smb,_netdev,file_mode=0644,dir_mode=0755,gid={{ gid }},uid={{ uid }}"
   with_items: "{{ samba_mounts }}"

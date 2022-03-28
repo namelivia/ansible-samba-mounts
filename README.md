@@ -17,3 +17,5 @@ roles:
  - `samba_password` Password for the samba server.
  - `samba_host_ip` IP address for the samba server.
  - `samba_mounts` Dictionary of `local_folder` and `remote_folder` of mounts
+ - `uid` uid to set on the mounts
+ - `gid` gid to set on the mounts
