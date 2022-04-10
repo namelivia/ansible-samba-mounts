@@ -30,5 +30,5 @@
     fstype: "cifs"
     name: "{{ item.local_folder }}"
     src: "//{{ samba_host_ip }}/{{ item.remote_folder }}"
-    opts: "credentials={{ hostvars[inventory_hostname].working_directory }}.smb,_netdev,file_mode=0644,dir_mode=0755,gid={{ gid }},uid={{ uid }}"
+    opts: "credentials={{ hostvars[inventory_hostname].working_directory }}.smb,_netdev,file_mode=0664,dir_mode=0775,gid={{ gid }},uid={{ uid }}"
   with_items: "{{ samba_mounts }}"
