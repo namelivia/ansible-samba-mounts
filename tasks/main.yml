@@ -9,6 +9,11 @@
       - gid is defined
       - uid is defined
 
+- name: Install required system packages
+  apt: name={{ item }} state=latest update_cache=yes
+  loop:
+    - 'cifs-utils'
+
 - name: Create the local folders
   file:
     path: "{{ item.local_folder }}"
