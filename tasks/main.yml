@@ -10,15 +10,18 @@
       - uid is defined
 
 - name: Install required system packages
-  apt: name={{ item }} state=latest update_cache=yes
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
   loop:
-    - 'cifs-utils'
+    - cifs-utils
 
 - name: Create the local folders
   file:
     path: "{{ item.local_folder }}"
     state: directory
-    mode: 0755
+    mode: "0755"
   with_items: "{{ samba_mounts }}"
 
 - name: Create credentials_file
